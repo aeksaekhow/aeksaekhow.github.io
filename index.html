@@ -40,11 +40,11 @@
                 emails.forEach((email, index, array) => {
                     loginArcadiaMail(email, 'Test123');
                 });
-
             }
 
             function loginArcadiaMail(username, password) {
 
+                /*
                 var data = new FormData();
                 data.append('Action', 'SystemLogin');
                 data.append('Email', username);
@@ -53,8 +53,8 @@
                 data.append('SignMe', '1');
                 data.append('AccountID', '0');
                 data.append('Token', '116cba421c7a08f1edf15c1be226dd4c');
+                */
 
-                /*
                 var data = {
                     'Action':'SystemLogin',
                     'Email':username,
@@ -64,19 +64,11 @@
                     'AccountID':'0',
                     'Token':'116cba421c7a08f1edf15c1be226dd4c'
                 };
-                */
       
-                $.ajax({
+                $.post({
                     url: 'http://mail.arcadiaapm.com/webmailpro/?/Ajax/',
-                    method: 'POST',
-                    crossDomain: true,
-                    processData: false,
-                    dataType:'jsonp',
                     data: data,
-                    jsonp:'jsonpCallback',
-                    jsonpCallback: function() {
-                         console.log('lll');
-                    },
+                    dataType:'json',
                     success: function(data) {
                        console.log(data); 
                     },
