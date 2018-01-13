@@ -65,8 +65,9 @@
                     'Token':'116cba421c7a08f1edf15c1be226dd4c'
                 };
       
-                $.post({
+                $.ajax({
                     url: 'https://mail.arcadiaapm.com/webmailpro/?/Ajax/',
+                    type:'POST',
                     headers:{
                         'Access-Control-Allow-Origin':'https://aeksaekhow.github.io',
                         'Access-Control-Allow-Methods':'POST',
