@@ -9,8 +9,7 @@
 <body>
 
     <div>
-        <input type="email" id="emailInput" placeholder="xxx@arcadiaapm.com" />
-        <button id="addButton">Add</button>
+        <button id="addButton">Refresh</button>
     </div>
     <br />
     <table id="displayTable" border="1">
@@ -31,7 +30,6 @@
             var emails = [
                 'aek.s@arcadiaapm.com',
                 'chotmanee.t@arcadiaapm.com',
-
                 'sagol.j@arcadiaapm.com',
                 'rukpong.r@arcadiaapm.com',
                 'nakarin.t@arcadiaapm.com',
@@ -92,6 +90,8 @@
             $('#addButton').click(() => {
                 refreshDisplayTable();
             });
+
+            refreshDisplayTable();
 
         })();
 
