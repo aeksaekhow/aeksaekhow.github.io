@@ -43,17 +43,6 @@
 
             function loginArcadiaMail(username, password) {
 
-                /*
-                var data = new FormData();
-                data.append('Action', 'SystemLogin');
-                data.append('Email', username);
-                data.append('IncLogin', '');
-                data.append('IncPassword', password);
-                data.append('SignMe', '1');
-                data.append('AccountID', '0');
-                data.append('Token', '116cba421c7a08f1edf15c1be226dd4c');
-                */
-
                 var data = {
                     'Action':'SystemLogin',
                     'Email':username,
@@ -75,7 +64,12 @@
                         }
                     },
                     success: function(data) {
-                       console.log(data); 
+                        var loginSuccess = data.Result != false;
+                        if (loginSuccess) {
+                            $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="yes">Yes</td></tr>');
+                        } else {
+                            $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="no">No</td></tr>');
+                        }
                     },
                     error: function(a, b, c) {
                         console.log(a);
@@ -83,13 +77,6 @@
                         console.log(c);
                     }
                 });
-
-                var loginSuccess = true;
-                if (loginSuccess) {
-                    $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="yes">Yes</td></tr>');
-                } else {
-                    $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="no">No</td></tr>');
-                }
 
             }
 
