@@ -1,25 +1,108 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | SpaceShooter</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <script src="TemplateData/UnityProgress.js"></script>  
-    <script src="Build/UnityLoader.js"></script>
-    <script>
-      var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Build.json", {onProgress: UnityProgress});
-    </script>
-  </head>
-  <body>
-    <div class="webgl-content">
-      <div id="gameContainer" style="width: 600px; height: 900px"></div>
-      <div class="footer">
-        <div class="webgl-logo"></div>
-        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">SpaceShooter</div>
-      </div>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Arcadia Email Password Checking</title>    
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/jquery-3.2.1.min.js" ></script>
+</head>
+<body>
+
+    <div>
+        <input type="email" id="emailInput" placeholder="xxx@arcadiaapm.com" />
+        <button id="addButton">Add</button>
     </div>
-  </body>
+    <br />
+    <table id="displayTable" border="1">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Use Default Password</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+
+        (() => {
+            
+            var emails = [
+                "aek.s@arcadiaapm.com",
+                "chotmanee.t@arcadiaapm.com"
+            ];
+
+            function refreshDisplayTable() {
+
+                $('#displayTable>tbody').html('');
+
+                emails.forEach((email, index, array) => {
+                    loginArcadiaMail(email, 'Test123');
+                });
+
+            }
+
+            function loginArcadiaMail(username, password) {
+
+                var data = new FormData();
+                data.append('Action', 'SystemLogin');
+                data.append('Email', username);
+                data.append('IncLogin', '');
+                data.append('IncPassword', password);
+                data.append('SignMe', '1');
+                data.append('AccountID', '0');
+                data.append('Token', '116cba421c7a08f1edf15c1be226dd4c');
+
+                /*
+                var data = {
+                    'Action':'SystemLogin',
+                    'Email':username,
+                    'IncLogin':'',
+                    'IncPassword':password,
+                    'SignMe':'1',
+                    'AccountID':'0',
+                    'Token':'116cba421c7a08f1edf15c1be226dd4c'
+                };
+                */
+      
+                $.ajax({
+                    url: 'http://mail.arcadiaapm.com/webmailpro/?/Ajax/',
+                    method: 'POST',
+                    crossDomain: true,
+                    processData: false,
+                    dataType:'jsonp',
+                    data: data,
+                    jsonp:'jsonpCallback',
+                    jsonpCallback: function() {
+                         console.log('lll');
+                    },
+                    success: function(data) {
+                       console.log(data); 
+                    },
+                    error: function(a, b, c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    }
+                });
+
+                var loginSuccess = true;
+                if (loginSuccess) {
+                    $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="yes">Yes</td></tr>');
+                } else {
+                    $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="no">No</td></tr>');
+                }
+
+            }
+
+            // Start coding here...
+            $('#addButton').click(() => {
+                refreshDisplayTable();
+            });
+
+        })();
+
+    </script>
+</body>
 </html>
