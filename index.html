@@ -68,6 +68,11 @@
                     url: 'https://mail.arcadiaapm.com/webmailpro/?/Ajax/',
                     data: data,
                     dataType:'json',
+                    settings:{
+                        headers: {
+                            'Access-Control-Allow-Origin':'*'
+                        }
+                    },
                     success: function(data) {
                        console.log(data); 
                     },
