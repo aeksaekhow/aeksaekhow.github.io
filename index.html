@@ -68,7 +68,9 @@
                 $.post({
                     url: 'https://mail.arcadiaapm.com/webmailpro/?/Ajax/',
                     headers:{
-                        'Access-Control-Allow-Origin':'https://aeksaekhow.github.io'
+                        'Access-Control-Allow-Origin':'https://aeksaekhow.github.io',
+                        'Access-Control-Allow-Methods':'POST',
+                        'Access-Control-Allow-Credentials':true
                     },
                     data: data,
                     dataType:'json',
