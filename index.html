@@ -1,100 +1,70 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Arcadia Email Password Checking</title>    
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="js/jquery-3.2.1.min.js" ></script>
-</head>
-<body>
-
-    <div>
-        <button id="addButton">Refresh</button>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Test</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">Test</div>
+      </div>
     </div>
-    <br />
-    <table id="displayTable" border="1">
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Use Default Password</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
     <script>
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/WebGlBuild.loader.js";
+      var config = {
+        dataUrl: buildUrl + "/WebGlBuild.data.gz",
+        frameworkUrl: buildUrl + "/WebGlBuild.framework.js.gz",
+        codeUrl: buildUrl + "/WebGlBuild.wasm.gz",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "Test",
+        productVersion: "0.1",
+      };
 
-        (() => {
-            
-            var emails = [
-                'aek.s@arcadiaapm.com',
-                'chotmanee.t@arcadiaapm.com',
-                'sagol.j@arcadiaapm.com',
-                'rukpong.r@arcadiaapm.com',
-                'nakarin.t@arcadiaapm.com',
-                'apikom.j@arcadiaapm.com',
-                'monchai.t@arcadiaapm.com',
-                'songphon.c@arcadiaapm.com',
-                'komnet.k@arcadiaapm.com',
-                'songchai.s@arcadiaapm.com'
-            ];
+      var container = document.querySelector("#unity-container");
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
 
-            function refreshDisplayTable() {
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        config.devicePixelRatio = 1;
+      } else {
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
+      }
+      loadingBar.style.display = "block";
 
-                $('#displayTable>tbody').html('');
-
-                emails.forEach((email, index, array) => {
-                    loginArcadiaMail(email, 'Test123');
-                });
-            }
-
-            function loginArcadiaMail(username, password) {
-
-                var data = {
-                    'Action':'SystemLogin',
-                    'Email':username,
-                    'IncLogin':'',
-                    'IncPassword':password,
-                    'SignMe':'1',
-                    'AccountID':'0',
-                    'Token':'05af93004b98bc9ca678cd23598ed099'
-                };
-      
-                $.post({
-                    url: 'https://mail.arcadiaapm.com/webmailpro/?/Ajax/',
-                    data: data,
-                    dataType:'json',
-                    crossDomain: true,
-                    settings:{
-                        headers: {
-                            'Access-Control-Allow-Origin':'*',
-                            'Access-Control-Allow-Credentials':true
-                        }
-                    },
-                    success: function(data) {
-                        var loginSuccess = data.Result != false;
-                        if (loginSuccess) {
-                            $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="yes">Yes</td></tr>');
-                        } else {
-                            $('#displayTable>tbody').append('<tr><td>' + username + '</td><td class="no">No</td></tr>');
-                        }
-                    },
-                    error: function(a, b, c) {
-                    }
-                });
-
-            }
-
-            // Start coding here...
-            $('#addButton').click(() => {
-                refreshDisplayTable();
-            });
-
-            refreshDisplayTable();
-
-        })();
-
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
     </script>
-</body>
+  </body>
 </html>
